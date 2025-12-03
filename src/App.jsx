@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
@@ -6,8 +6,17 @@ function App() {
     const [docText, setDocText] = useState('')
     const [results, setResults] = useState([])
     const [message, setMessage] = useState('')
+    const [messageType, setMessageType] = useState('')
+    const [docCount, setDocCount] = useState(0)
 
-    // Function  to search
+    // 1. Fetch the count when the app loads
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/')
+            .then(res => res.json())
+            .then(data => setDocCount(data.docs_count))
+            .catch(err => console.error("Backend offline:", err))
+    }, [])
+
     const handleSearch = async () => {
         const response = await fetch('http://127.0.0.1:8000/search', {
             method: 'POST',
@@ -18,21 +27,32 @@ function App() {
         setResults(data.results)
     }
 
-    // Function to add a document
     const handleAddDocument = async () => {
-        const response = await fetch('http://127.0.0.1:8000/add', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({text: docText})
-        })
-        if (response.ok) {
-            setMessage('Document added to Vector DB!')
-            setDocText('')
-            setTimeout(() => setMessage(''), 3000)
+        try {
+            const response = await fetch('http://127.0.0.1:8000/add', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({text: docText})
+            })
+            const data = await response.json()
+
+            if (response.ok) {
+                setMessage('Document added to Vector DB!')
+                setMessageType('success')
+                setDocCount(data.total_docs)
+                setDocText('')
+                setTimeout(() => setMessage(''), 3000)
+            } else {
+                setMessage(`Error: ${data.detail || 'Failed to add'}`)
+                setMessageType('error')
+            }
+        } catch (error) {
+            setMessage('Network Error: Is backend running?')
+            setMessageType('error')
         }
     }
 
-  return (
+    return (
         <div className="container">
             <h1>Vector Search Engine</h1>
 
@@ -42,8 +62,20 @@ function App() {
             </p>
 
             <div className="card">
-
-                <h2>1. Index New Knowledge</h2>
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <h2>1. Index New Knowledge</h2>
+                    <span style={{
+                        background: '#334155',
+                        padding: '5px 12px',
+                        borderRadius: '20px',
+                        fontSize: '0.85rem',
+                        color: '#94a3b8',
+                        fontWeight: 'bold',
+                        border: '1px solid #475569'
+                    }}>
+                        Documents: <span style={{color: '#f8fafc'}}>{docCount}</span>
+                    </span>
+                </div>
 
                 <textarea
                     placeholder="Paste text here (e.g., 'I aspire to become an Ai engineer...')"
@@ -52,12 +84,19 @@ function App() {
                 />
 
                 <button onClick={handleAddDocument}>Add to Database</button>
-                {message && <p className="success">{message}</p>}
 
+                {message && (
+                    <p className={messageType === 'success' ? "success" : "error-msg"} style={{
+                        color: messageType === 'success' ? '#4ade80' : '#ef4444',
+                        fontWeight: 'bold',
+                        marginTop: '1rem'
+                    }}>
+                        {message}
+                    </p>
+                )}
             </div>
 
             <div className="card">
-
                 <h2>2. Semantic Search</h2>
 
                 <div className="search-box">
@@ -81,7 +120,7 @@ function App() {
                 </div>
             </div>
         </div>
-  )
+    )
 }
 
 export default App

@@ -51,7 +51,7 @@ function App() {
                     onChange={(e) => setDocText(e.target.value)}
                 />
 
-                <buttonn onClick={handleAddDocument}>Add to Database</buttonn>
+                <button onClick={handleAddDocument}>Add to Database</button>
                 {message && <p className="success">{message}</p>}
 
             </div>

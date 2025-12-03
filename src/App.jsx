@@ -9,9 +9,11 @@ function App() {
     const [messageType, setMessageType] = useState('')
     const [docCount, setDocCount] = useState(0)
 
-    // 1. Fetch the count when the app loads
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/')
+        // Use API_URL instead of hardcoded string
+        fetch(`${API_URL}/`)
             .then(res => res.json())
             .then(data => setDocCount(data.docs_count))
             .catch(err => console.error("Backend offline:", err))

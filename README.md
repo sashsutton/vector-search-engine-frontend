@@ -1,16 +1,32 @@
-# React + Vite
+# Vector Search Engine (Frontend)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6.0-purple)](https://vitejs.dev/)
+[![Status](https://img.shields.io/badge/Status-Active-success)]()
 
-Currently, two official plugins are available:
+The modern, responsive user interface for the Vector Search Engine. Built with **React 19** and **Vite**, it provides a real-time dashboard to index knowledge and perform semantic searches against the Python backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔗 Quick Links
+* **🚀 Live Demo:** [vector search website](https://vector-search-engine-frontend.vercel.app/)
+* **🐍 Backend Repository:** [Go to Backend Code](https://github.com/sashsutton/vector-search-engine)
 
-## React Compiler
+## 🎨 Features
+* **Real-time Interaction:** Instantly add documents and see the database count update.
+* **Semantic Search UI:** Clean input interface to query the vector database.
+* **Cyberpunk Aesthetic:** Custom Dark Mode design using glassmorphism effects.
+* **Responsive:** Fully mobile-friendly layout.
+* **Error Handling:** Visual feedback for network errors or backend crashes.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
+* **Framework:** React 19 (Latest)
+* **Build Tool:** Vite (Super fast HMR)
+* **Styling:** CSS Modules with CSS Variables for theming.
+* **State Management:** React Hooks (`useState`, `useEffect`).
+* **Network:** Native `fetch` API with Async/Await.
 
-## Expanding the ESLint configuration
+## 💻 Local Installation
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. **Clone the repository**
+   ```bash
+   git clone [https://github.com/sashsutton/vector-search-engine.git](https://github.com/sashsutton/vector-search-engine.git)
+   cd vector-search-engine-frontend

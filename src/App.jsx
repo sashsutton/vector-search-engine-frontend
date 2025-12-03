@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 function App() {
     const [query, setQuery] = useState('')
     const [docText, setDocText] = useState('')
@@ -9,7 +11,7 @@ function App() {
     const [messageType, setMessageType] = useState('')
     const [docCount, setDocCount] = useState(0)
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 
     useEffect(() => {
         // Use API_URL instead of hardcoded string
@@ -20,7 +22,7 @@ function App() {
     }, [])
 
     const handleSearch = async () => {
-        const response = await fetch('http://127.0.0.1:8000/search', {
+        const response = await fetch(`${API_URL}/search`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({query: query, k: 3})
@@ -31,7 +33,7 @@ function App() {
 
     const handleAddDocument = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/add', {
+            const response = await fetch(`${API_URL}/add`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({text: docText})

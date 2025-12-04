@@ -7,6 +7,7 @@
     --accent: #3b82f6;         /* Electric Blue */
     --accent-hover: #2563eb;
     --success: #10b981;        /* Green */
+    --danger: #ef4444;         /* Red */
     --border: #334155;
 }
 
@@ -19,14 +20,14 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    /* Subtle background gradient for depth */
     background-image: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
 }
 
 .container {
     width: 100%;
-    max-width: 750px;
+    max-width: 800px; /* Slightly wider for desktop */
     padding: 3rem 1.5rem;
+    box-sizing: border-box;
 }
 
 /* --- TYPOGRAPHY --- */
@@ -35,25 +36,35 @@ h1 {
     margin-bottom: 0.5rem;
     font-weight: 800;
     letter-spacing: -1px;
+    font-size: 2.5rem;
     background: linear-gradient(90deg, #60a5fa, #a78bfa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
-h2 {
+.description {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
     font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    font-size: 1.2rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 0.5rem;
+    margin: 0; /* Reset default margin */
 }
 
 /* --- CARDS (The Glass Effect) --- */
 .card {
-    background: rgba(30, 41, 59, 0.7); /* Semi-transparent */
-    backdrop-filter: blur(10px);       /* Blur effect behind */
+    background: rgba(30, 41, 59, 0.7);
+    backdrop-filter: blur(10px);
     padding: 2rem;
     border-radius: 16px;
     margin-bottom: 2rem;
@@ -66,6 +77,16 @@ h2 {
     border-color: #475569;
 }
 
+/* --- HEADER INSIDE CARD --- */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap; /* Allows wrapping on tiny screens */
+    gap: 10px;
+}
+
 /* --- INPUTS & TEXTAREAS --- */
 textarea, input {
     width: 100%;
@@ -76,7 +97,7 @@ textarea, input {
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.2s;
-    box-sizing: border-box; /* Ensures padding doesn't break width */
+    box-sizing: border-box;
     font-family: inherit;
 }
 
@@ -87,7 +108,7 @@ textarea:focus, input:focus {
 }
 
 textarea {
-    min-height: 100px;
+    min-height: 120px;
     resize: vertical;
 }
 
@@ -102,7 +123,15 @@ button {
     font-weight: 600;
     font-size: 0.95rem;
     transition: background 0.2s, transform 0.1s;
-    margin-top: 10px;
+    margin-top: 1rem;
+    width: 100%; /* Full width on mobile default */
+}
+
+/* Desktop override for buttons */
+@media (min-width: 600px) {
+    button {
+        width: auto; /* Auto width on desktop */
+    }
 }
 
 button:hover {
@@ -114,16 +143,20 @@ button:active {
     transform: translateY(0);
 }
 
-/* --- SEARCH SECTION SPECIFIC --- */
+/* --- SEARCH SECTION --- */
 .search-box {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
 
+.search-box input {
+    flex: 1; /* Input takes available space */
+}
+
 .search-box button {
-    margin-top: 0; /* Reset margin for inline button */
-    flex-shrink: 0; /* Prevent button from squishing */
+    margin-top: 0; /* Align with input */
+    flex-shrink: 0;
 }
 
 /* --- RESULTS LIST --- */
@@ -138,13 +171,15 @@ button:active {
     padding: 1.2rem;
     border-radius: 8px;
     border-left: 4px solid var(--accent);
-    animation: fadeIn 0.4s ease-out; /* Animation */
+    animation: fadeIn 0.4s ease-out;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
-.result-item p {
-    margin: 0.5rem 0 0 0;
-    line-height: 1.5;
-    color: var(--text-primary);
+.result-content {
+    flex: 1;
 }
 
 .score {
@@ -153,21 +188,98 @@ button:active {
     color: var(--accent);
     padding: 4px 8px;
     border-radius: 4px;
-    font-family: 'Courier New', monospace; /* Tech look */
+    font-family: 'Courier New', monospace;
     font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0.5rem;
 }
 
-/* --- MESSAGES --- */
-.success {
-    color: var(--success);
-    font-weight: 600;
-    margin-top: 1rem;
-    display: block;
-    animation: fadeIn 0.3s;
+/* --- DELETE BUTTON --- */
+.delete-btn {
+    background-color: transparent;
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    padding: 8px;
+    margin-top: 0;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: var(--danger);
+    color: white;
 }
 
 /* --- ANIMATIONS --- */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- DATABASE LIST (Scrollable) --- */
+.db-list-container {
+    max-height: 300px;
+    overflow-y: auto;
+    background: #020617;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.db-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #1e293b;
+    padding: 10px 0;
+}
+
+/* =========================================
+   📱 MOBILE RESPONSIVENESS (Media Queries)
+   ========================================= */
+
+@media (max-width: 600px) {
+    .container {
+        padding: 1.5rem 1rem; /* Less padding on mobile */
+    }
+
+    h1 {
+        font-size: 2rem; /* Smaller title */
+    }
+
+    .description {
+        font-size: 1rem;
+    }
+
+    .card {
+        padding: 1.5rem; /* Smaller card padding */
+    }
+
+    /* Stack the search box vertically on small screens */
+    .search-box {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .search-box button {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    /* Adjust result items for small screens */
+    .result-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .delete-btn {
+        width: 100%; /* Full width delete button on mobile */
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
